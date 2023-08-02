@@ -63,10 +63,11 @@ public class JakartaTextDocumentService implements TextDocumentService {
 
     // Text document manager that maintains the contexts of the text documents
     // AJM made this change to allow LS to complete completion
-    private final JakartaTextDocuments documents = new JakartaTextDocuments(null, null);
+    private final JakartaTextDocuments documents;
     
     public JakartaTextDocumentService(JakartaLanguageServer jls) {
         this.jakartaLanguageServer = jls;
+        this.documents = new JakartaTextDocuments(jls, jls);
     }
 
     @Override

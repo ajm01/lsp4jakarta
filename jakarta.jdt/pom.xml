@@ -35,8 +35,8 @@
 		<tycho.extras.version>${tycho.version}</tycho.extras.version>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/lsp4mp</tycho.scmUrl>
 		<tycho.generateSourceReferences>true</tycho.generateSourceReferences>
-		<!-- <jdt.ls.version>1.21.0.20230316144047</jdt.ls.version> -->
-		<jdt.ls.version>1.26.0.20230727162934</jdt.ls.version>
+		<jdt.ls.version>1.21.0.20230316144047</jdt.ls.version>
+		<!-- <jdt.ls.version>1.25.0.20230629153151</jdt.ls.version> -->
 		<releases.repo.id>repo.eclipse.org</releases.repo.id>
 		<releases.repo.url>https://repo.eclipse.org/content/repositories/lsp4jakarta-releases/</releases.repo.url>
 		<snapshots.repo.id>repo.eclipse.org</snapshots.repo.id>
@@ -44,9 +44,9 @@
 	</properties>
 	<repositories>
 		<repository>
-			<id>2023-06</id>
+			<id>2023-03</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/2023-06</url>
+			<url>http://download.eclipse.org/releases/2023-03</url>
 		</repository>
 		    <repository>
 		      <id>jdt.ls.p2</id>
