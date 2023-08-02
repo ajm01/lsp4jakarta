@@ -11,7 +11,7 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta.api;
+package org.eclipse.lsp4jakarta.ls.api;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -31,7 +31,7 @@ import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
  * API of the client consuming the Language Server for Jakarta EE. Used to send
  * messages back to the client to ask for information about the Java project.
  */
-public interface JakartaLanguageClientAPI extends LanguageClient {
+public interface JakartaLanguageClientAPI extends LanguageClient, JakartaJavaCompletionProvider, JakartaJavaProjectLabelsProvider, JakartaJavaFileInfoProvider {
 
     @JsonRequest("jakarta/java/diagnostics")
     default CompletableFuture<List<PublishDiagnosticsParams>> getJavaDiagnostics(JakartaDiagnosticsParams javaParams) {

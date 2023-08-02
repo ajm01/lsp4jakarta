@@ -11,8 +11,9 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta;
+package org.eclipse.lsp4jakarta.ls;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -26,10 +27,17 @@ import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.eclipse.lsp4j.services.TextDocumentService;
 import org.eclipse.lsp4j.services.WorkspaceService;
-import org.eclipse.lsp4jakarta.api.JakartaLanguageClientAPI;
-import org.eclipse.lsp4mp.ls.commons.ParentProcessWatcher.ProcessLanguageServer;
+import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
+import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
+import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
+import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
+import org.eclipse.lsp4jakarta.ls.api.JakartaJavaFileInfoProvider;
+import org.eclipse.lsp4jakarta.ls.api.JakartaJavaProjectLabelsProvider;
+import org.eclipse.lsp4jakarta.ls.api.JakartaLanguageClientAPI;
+import org.eclipse.lsp4jakarta.ls.commons.ParentProcessWatcher.ProcessLanguageServer;
+import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments;
 
-public class JakartaLanguageServer implements LanguageServer, ProcessLanguageServer {
+public class JakartaLanguageServer implements LanguageServer, ProcessLanguageServer, JakartaJavaProjectLabelsProvider, JakartaJavaFileInfoProvider {
 
     private Integer parentProcessId;
 
@@ -37,6 +45,8 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
 
     private final WorkspaceService workspaceService;
     private final TextDocumentService textDocumentService;
+	private final JakartaTextDocuments javaDocuments;
+
 
     private JakartaLanguageClientAPI languageClient;
 
@@ -45,6 +55,9 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
         // settings.
         workspaceService = new JakartaWorkspaceService(this);
         textDocumentService = new JakartaTextDocumentService(this);
+        System.out.println("AJM: here?");
+		javaDocuments = new JakartaTextDocuments(this, this);
+
     }
 
     @Override
@@ -109,5 +122,21 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
     public long getParentProcessId() {
         return parentProcessId != null ? parentProcessId : 0;
     }
+
+	@Override
+	public CompletableFuture<ProjectLabelInfoEntry> getJavaProjectLabels(
+			JakartaJavaProjectLabelsParams javaParams) {
+		return getLanguageClient().getJavaProjectLabels(javaParams);
+	}
+
+	@Override
+	public CompletableFuture<List<ProjectLabelInfoEntry>> getAllJavaProjectLabels() {
+		return getLanguageClient().getAllJavaProjectLabels();
+	}
+
+	@Override
+	public CompletableFuture<JakartaJavaFileInfo> getJavaFileInfo(JakartaJavaFileInfoParams javaParams) {
+		return getLanguageClient().getJavaFileInfo(javaParams);
+	}
 
 }

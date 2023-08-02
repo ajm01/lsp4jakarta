@@ -12,7 +12,7 @@
 *     Red Hat Inc. - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta.commons.snippets;
+package org.eclipse.lsp4jakarta.ls.commons.snippets;
 
 /**
  * Loader used to load snippets in a given registry for a language id

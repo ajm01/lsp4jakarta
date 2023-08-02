@@ -11,10 +11,11 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta;
+package org.eclipse.lsp4jakarta.ls;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
@@ -37,20 +38,20 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.TextDocumentService;
-import org.eclipse.lsp4jakarta.commons.JakartaClasspathParams;
 import org.eclipse.lsp4jakarta.commons.JakartaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextKind;
 import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
 import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
 import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
-import org.eclipse.lsp4jakarta.commons.snippets.SnippetRegistry;
+import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments;
+import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments.JakartaTextDocument;
+import org.eclipse.lsp4jakarta.ls.java.JavaTextDocumentSnippetRegistry;
 import org.eclipse.lsp4jakarta.snippets.JavaSnippetCompletionContext;
 import org.eclipse.lsp4jakarta.snippets.SnippetContextForJava;
-import org.eclipse.lsp4mp.commons.DocumentFormat;
-import org.eclipse.lsp4mp.ls.commons.BadLocationException;
-import org.eclipse.lsp4mp.ls.commons.TextDocument;
-import org.eclipse.lsp4mp.ls.commons.TextDocuments;
+import org.eclipse.lsp4jakarta.commons.DocumentFormat;
+import org.eclipse.lsp4jakarta.ls.commons.BadLocationException;
+import org.eclipse.lsp4jakarta.ls.commons.TextDocument;
+import org.eclipse.lsp4jakarta.ls.commons.TextDocuments;
 
 public class JakartaTextDocumentService implements TextDocumentService {
 
@@ -58,11 +59,12 @@ public class JakartaTextDocumentService implements TextDocumentService {
 
     private final JakartaLanguageServer jakartaLanguageServer;
 
-    private SnippetRegistry snippetRegistry = new SnippetRegistry();
+    private JavaTextDocumentSnippetRegistry snippetRegistry = new JavaTextDocumentSnippetRegistry();
 
     // Text document manager that maintains the contexts of the text documents
-    private final TextDocuments<TextDocument> documents = new TextDocuments<TextDocument>();
-
+    // AJM made this change to allow LS to complete completion
+    private final JakartaTextDocuments documents = new JakartaTextDocuments(null, null);
+    
     public JakartaTextDocumentService(JakartaLanguageServer jls) {
         this.jakartaLanguageServer = jls;
     }
@@ -93,7 +95,63 @@ public class JakartaTextDocumentService implements TextDocumentService {
     }
 
     @Override
-    public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(CompletionParams position) {
+    public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(CompletionParams params) {
+    	
+    	JakartaTextDocument document = documents.get(params.getTextDocument().getUri());
+    	
+    	return document.executeIfInJakartaProject((projectInfo, cancelChecker) -> {
+			JakartaJavaCompletionParams javaParams = new JakartaJavaCompletionParams(
+					params.getTextDocument().getUri(), params.getPosition());
+    	
+
+		// get the completion capabilities from the java language server component
+		CompletableFuture<JakartaJavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer
+				.getLanguageClient().getJavaCompletion(javaParams);
+		
+		// calculate params for Java snippets
+		Integer completionOffset = null;
+		try {
+			completionOffset = document.offsetAt(params.getPosition());
+		} catch (BadLocationException e) {
+			//LOGGER.log(Level.SEVERE, "Error while getting java snippet completions", e);
+			return null;
+		} 
+		
+		final Integer finalizedCompletionOffset = completionOffset;
+		boolean canSupportMarkdown = true;
+		boolean snippetsSupported = true;
+    	
+		cancelChecker.checkCanceled();
+
+		return javaParticipantCompletionsFuture.thenApply((completionResult) -> {
+			cancelChecker.checkCanceled();
+
+			CompletionList list = completionResult.getCompletionList();
+			if (list == null) {
+				list = new CompletionList();
+			}
+
+			JavaCursorContextResult cursorContext = completionResult.getCursorContext();
+
+			// calculate the snippet completion items based on the context
+			List<CompletionItem> snippetCompletionItems = snippetRegistry.getCompletionItems(document, finalizedCompletionOffset,
+					canSupportMarkdown, snippetsSupported, (context, model) -> {
+						if (context != null && context instanceof SnippetContextForJava) {
+							return ((SnippetContextForJava) context)
+									.isMatch(new JavaSnippetCompletionContext(projectInfo, cursorContext));
+						}
+						return true;
+					}, projectInfo);
+			list.getItems().addAll(snippetCompletionItems);
+
+			// This reduces the number of completion requests to the server. See:
+			// https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_completion
+			list.setIsIncomplete(false);
+			return Either.forRight(list);
+		});
+
+	}, Either.forLeft(Collections.emptyList()));
+    	/*
         String uri = position.getTextDocument().getUri();
         TextDocument document = documents.get(uri);
         // Async thread to query the JDT LS ext for snippet contexts on project's classpath
@@ -151,6 +209,7 @@ public class JakartaTextDocumentService implements TextDocumentService {
             LOGGER.severe("Failed to get completions: " + e.getMessage());
         }
         return CompletableFuture.completedFuture(Either.forLeft(new ArrayList<CompletionItem>()));
+        */
     }
 
     @Override

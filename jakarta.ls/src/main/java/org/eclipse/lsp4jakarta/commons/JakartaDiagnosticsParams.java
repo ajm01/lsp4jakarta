@@ -13,7 +13,7 @@
 
 package org.eclipse.lsp4jakarta.commons;
 
-import org.eclipse.lsp4mp.commons.DocumentFormat;
+import org.eclipse.lsp4jakarta.commons.DocumentFormat;
 import java.util.List;
 
 public class JakartaDiagnosticsParams {

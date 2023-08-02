@@ -161,6 +161,8 @@ public class JDTServicesManager {
      * @return List<String>
      */
     public List<String> getExistingContextsFromClassPath(String uri, List<String> snippetContexts) {
+    	
+    	
         // Initialize the list that will hold the classpath
         List<String> classpath = new ArrayList<>();
         // Convert URI into a compilation unit
@@ -201,6 +203,7 @@ public class JDTServicesManager {
         classpath.add(className);
 
         return classpath;
+        
     }
 
     public List<CodeAction> getCodeAction(JakartaJavaCodeActionParams params, JDTUtils utils, IProgressMonitor monitor)

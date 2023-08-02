@@ -11,7 +11,6 @@
 * Contributors:
 *     Red Hat Inc. - initial API and implementation
 *******************************************************************************/
-
 package org.eclipse.lsp4jakarta.commons;
 
 import java.util.Collections;
@@ -19,9 +18,8 @@ import java.util.List;
 
 /**
  * Stores labels for the project located at a specific project uri
- * Modified from https://github.com/eclipse/lsp4mp/blob/master/microprofile.ls/org.eclipse.lsp4mp.ls/src/main/java/org/eclipse/lsp4mp/commons/ProjectLabelInfoEntry.java
  *
- * @author Ankush Sharma, credit to dakwon
+ * @author dakwon
  *
  */
 public class ProjectLabelInfoEntry {
@@ -40,8 +38,6 @@ public class ProjectLabelInfoEntry {
 
 	/**
 	 * Returns the project uri
-	 * 
-	 * FIXME: on Linux, this is actually an absolute path and not a uri.
 	 *
 	 * @return the project uri
 	 */

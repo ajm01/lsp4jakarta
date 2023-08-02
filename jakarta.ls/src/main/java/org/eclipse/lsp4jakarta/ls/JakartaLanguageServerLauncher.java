@@ -11,7 +11,7 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta;
+package org.eclipse.lsp4jakarta.ls;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,12 +25,13 @@ import org.eclipse.lsp4j.jsonrpc.MessageConsumer;
 import org.eclipse.lsp4j.launch.LSPLauncher.Builder;
 import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
-import org.eclipse.lsp4jakarta.api.JakartaLanguageClientAPI;
-import org.eclipse.lsp4mp.ls.commons.ParentProcessWatcher;
+import org.eclipse.lsp4jakarta.ls.api.JakartaLanguageClientAPI;
+import org.eclipse.lsp4jakarta.ls.commons.ParentProcessWatcher;
 
 public class JakartaLanguageServerLauncher {
     public static void main(String[] args) {
         JakartaLanguageServer server = new JakartaLanguageServer();
+        System.out.println("AJM: server newed up here?");
 
         Function<MessageConsumer, MessageConsumer> wrapper;
         wrapper = it -> it;

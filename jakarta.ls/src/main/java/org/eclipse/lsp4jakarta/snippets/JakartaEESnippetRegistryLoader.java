@@ -15,8 +15,8 @@ package org.eclipse.lsp4jakarta.snippets;
 
 import java.util.logging.Logger;
 
-import org.eclipse.lsp4jakarta.commons.snippets.ISnippetRegistryLoader;
-import org.eclipse.lsp4jakarta.commons.snippets.SnippetRegistry;
+import org.eclipse.lsp4jakarta.ls.commons.snippets.ISnippetRegistryLoader;
+import org.eclipse.lsp4jakarta.ls.commons.snippets.SnippetRegistry;
 
 /**
  * Loads in JakartaEE Specific Snippets

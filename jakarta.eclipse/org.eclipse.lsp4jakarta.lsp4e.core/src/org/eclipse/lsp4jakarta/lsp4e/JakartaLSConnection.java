@@ -59,7 +59,7 @@ public class JakartaLSConnection extends ProcessStreamConnectionProvider {
             commands.add("-Duser.language=" + currentLocale.getLanguage());
             commands.add("-Duser.country=" + currentLocale.getCountry());
 
-            commands.add("org.eclipse.lsp4jakarta.JakartaLanguageServerLauncher");
+            commands.add("org.eclipse.lsp4jakarta.ls.JakartaLanguageServerLauncher");
             setCommands(commands);
             setWorkingDirectory(System.getProperty("user.dir"));
         } catch (IOException e) {

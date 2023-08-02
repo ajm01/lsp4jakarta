@@ -11,7 +11,7 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-package org.eclipse.lsp4jakarta;
+package org.eclipse.lsp4jakarta.ls;
 
 import org.eclipse.lsp4j.DidChangeConfigurationParams;
 import org.eclipse.lsp4j.DidChangeWatchedFilesParams;

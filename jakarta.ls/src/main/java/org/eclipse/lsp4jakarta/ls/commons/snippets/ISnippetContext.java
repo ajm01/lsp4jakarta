@@ -11,24 +11,23 @@
 * Contributors:
 *     Red Hat Inc. - initial API and implementation
 *******************************************************************************/
-
-package org.eclipse.lsp4jakarta.commons.snippets;
+package org.eclipse.lsp4jakarta.ls.commons.snippets;
 
 /**
- * Snippet context used to filter the snippet
- * Reused from https://github.com/eclipse/lsp4mp/blob/master/microprofile.ls/org.eclipse.lsp4mp.ls/src/main/java/org/eclipse/lsp4mp/ls/commons/snippets/ISnippetContext.java
- * 
- * @param <T> the value type waited by the snipper
- * @author Ankush Sharma, credit to Angelo ZERR
+ * Snippet context used to filter the snippet.
+ *
+ * @author Angelo ZERR
+ *
+ * @param <T> the value type waited by the snippet context.
  */
-
 public interface ISnippetContext<T> {
-    /**
-     * Return true if the given value match the snippet context and false otherwise.
-     *
-     * @param value the value to check.
-     * @return true if the given value match the snippet context and false
-     *         otherwise.
-     */
-    boolean isMatch(T value);
+
+	/**
+	 * Return true if the given value match the snippet context and false otherwise.
+	 *
+	 * @param value the value to check.
+	 * @return true if the given value match the snippet context and false
+	 *         otherwise.
+	 */
+	boolean isMatch(T value);
 }
