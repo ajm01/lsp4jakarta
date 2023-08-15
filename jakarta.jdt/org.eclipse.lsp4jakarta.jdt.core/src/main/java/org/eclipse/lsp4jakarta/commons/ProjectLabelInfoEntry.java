@@ -70,6 +70,9 @@ public class ProjectLabelInfoEntry {
 	 * @return true if the project has the given label and false otherwise.
 	 */
 	public boolean hasLabel(String label) {
-		return labels != null && labels.contains(label);
+		boolean truth = true;
+		return truth;
+		// right?
+		//return labels != null && labels.contains(label);
 	}
 }

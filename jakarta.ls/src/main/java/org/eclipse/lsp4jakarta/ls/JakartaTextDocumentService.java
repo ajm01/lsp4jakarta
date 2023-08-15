@@ -127,14 +127,18 @@ public class JakartaTextDocumentService implements TextDocumentService {
 		return javaParticipantCompletionsFuture.thenApply((completionResult) -> {
 			cancelChecker.checkCanceled();
 
+			// We currently do not get any completion items from the JDT Extn layer - the completion
+			// list will be null, so we will new it up here to add the LS based snippets. 
+			// Will we in the future?
 			CompletionList list = completionResult.getCompletionList();
 			if (list == null) {
 				list = new CompletionList();
 			}
 
+			// We do get a cursorContext obj back from the JDT Extn layer  - we will need that for snippet selection
 			JavaCursorContextResult cursorContext = completionResult.getCursorContext();
 
-			// calculate the snippet completion items based on the context
+			// calculate the snippet completion items based on the cursor context
 			List<CompletionItem> snippetCompletionItems = snippetRegistry.getCompletionItems(document, finalizedCompletionOffset,
 					canSupportMarkdown, snippetsSupported, (context, model) -> {
 						if (context != null && context instanceof SnippetContextForJava) {

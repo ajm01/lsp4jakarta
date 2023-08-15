@@ -15,5 +15,10 @@
 			<command id="jakarta/java/codeaction"/>
 			<command id="jakarta/java/cursorcontext"/>
 		</delegateCommandHandler>
-	</extension>
+	</extension>	
+	<!--
+	<extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants" >
+   	  <completion class="org.eclipse.lsp4jakarta.jdt.internal.core.java.completion.JavaCompletionDefinition" />
+   </extension>
+   -->
 </plugin>

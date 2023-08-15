@@ -137,7 +137,7 @@ public class JakartaTextDocuments extends TextDocuments<JakartaTextDocument> {
 		}
 
 		/**
-		 * Execute the given code only if the Java file belongs to a MicroProfile
+		 * Execute the given code only if the Java file belongs to a Jakarta
 		 * project.
 		 *
 		 * @param <T>                       the type to return.
@@ -336,7 +336,7 @@ public class JakartaTextDocuments extends TextDocuments<JakartaTextDocument> {
 	 * and false otherwise.
 	 *
 	 * @param projectInfo the project information.
-	 * @return true if the given project information has the "jkarta" label
+	 * @return true if the given project information has the "jakarta" label
 	 *         and false otherwise.
 	 */
 	private static boolean isJakartaProject(ProjectLabelInfoEntry projectInfo) {

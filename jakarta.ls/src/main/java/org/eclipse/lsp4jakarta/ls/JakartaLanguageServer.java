@@ -69,7 +69,7 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
 
         InitializeResult initializeResult = new InitializeResult(serverCapabilities);
         // Provide Completion Capability to the LS
-        initializeResult.getCapabilities().setCompletionProvider(new CompletionOptions());
+        initializeResult.getCapabilities().setCompletionProvider(new CompletionOptions(false, null));
         initializeResult.getCapabilities().setHoverProvider(true);
         initializeResult.getCapabilities().setCodeActionProvider(true);
         return CompletableFuture.completedFuture(initializeResult);

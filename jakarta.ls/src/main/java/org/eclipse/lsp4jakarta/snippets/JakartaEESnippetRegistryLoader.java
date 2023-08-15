@@ -46,5 +46,10 @@ public class JakartaEESnippetRegistryLoader implements ISnippetRegistryLoader {
                 SnippetContextForJava.TYPE_ADAPTER);
 
     }
+    
+	@Override
+	public String getLanguageId() {
+		return LanguageId.java.name();
+	}
 
 }
