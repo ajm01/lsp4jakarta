@@ -12,11 +12,13 @@
 	</requires>
 
 	<!-- Delegate command handler for custom Eclipse LSP4Jakarta commands contributed to Eclipse JDT LS -->
+	<!--
 	<extension point="org.eclipse.jdt.ls.core.delegateCommandHandler">
 		<delegateCommandHandler class="org.eclipse.lsp4jakarta.jdt.internal.core.ls.JakartaDelegateCommandHandlerForJava">
 			<command id="jakarta/java/completion"/>
 		</delegateCommandHandler>
 	</extension>	
+	-->
 	<!--
 	<extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants" >
    	  <completion class="org.eclipse.lsp4jakarta.jdt.internal.core.java.completion.JavaCompletionDefinition" />

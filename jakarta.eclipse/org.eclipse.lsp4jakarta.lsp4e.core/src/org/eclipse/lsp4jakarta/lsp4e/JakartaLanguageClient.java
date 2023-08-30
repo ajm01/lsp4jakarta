@@ -36,7 +36,6 @@ import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
 import org.eclipse.lsp4jakarta.commons.JavaCursorContextKind;
 import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
 import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
-import org.eclipse.lsp4jakarta.jdt.core.JDTUtils;
 import org.eclipse.lsp4jakarta.jdt.core.ProjectLabelManager;
 import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.eclipse.lsp4jakarta.jdt.core.PropertiesManagerForJava;
