@@ -32,10 +32,11 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
-import org.eclipse.lsp4jakarta.jdt.core.PropertiesManagerForJava;
+import org.eclipse.lspcommon.commons.JavaCompletionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionResult;
+import org.eclipse.lspcommon.commons.JavaCursorContextResult;
+import org.eclipse.lspcommon.jdt.core.PropertiesManagerForJava;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Delegate Command Handler for LSP4Jakarta JDT LS extension commands
@@ -69,14 +70,14 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
 	 * @throws JavaModelException
 	 * @throws CoreException
 	 */
-	private static JakartaJavaCompletionResult getCompletionForJava(List<Object> arguments, String commandId,
+	private static JavaCompletionResult getCompletionForJava(List<Object> arguments, String commandId,
 			IProgressMonitor monitor) throws JavaModelException, CoreException {
-		JakartaJavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
+		JavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
 		CompletionList completionList = PropertiesManagerForJava.getInstance().completion(params,
 				JDTUtilsLSImpl.getInstance(), monitor);
 		JavaCursorContextResult cursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(params,
 				JDTUtilsLSImpl.getInstance(), monitor);
-		return new JakartaJavaCompletionResult(completionList, cursorContext);
+		return new JavaCompletionResult(completionList, cursorContext);
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
 	 * @param commandId
 	 * @return the completion parameters from the given argument map
 	 */
-	private static JakartaJavaCompletionParams createJakartaJavaCompletionParams(List<Object> arguments,
+	private static JavaCompletionParams createJakartaJavaCompletionParams(List<Object> arguments,
 			String commandId) {
 		Map<String, Object> obj = getFirst(arguments);
 		if (obj == null) {
@@ -105,7 +106,7 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
 					"Command '%s' must be called with required JakartaJavaCompletionParams.position (completion trigger location)!",
 					commandId));
 		}
-		JakartaJavaCompletionParams params = new JakartaJavaCompletionParams(javaFileUri, position);
+		JavaCompletionParams params = new JavaCompletionParams(javaFileUri, position);
 		return params;
 	}
 }

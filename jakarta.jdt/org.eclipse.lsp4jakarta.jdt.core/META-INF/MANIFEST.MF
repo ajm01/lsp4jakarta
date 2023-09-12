@@ -22,11 +22,9 @@ Require-Bundle:
  org.eclipse.text,
  org.apache.commons.lang3,
  com.google.gson,
- com.google.guava
+ com.google.guava,
+ org.eclipse.lspcommon.jdt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Export-Package: 
- org.eclipse.lsp4jakarta.commons,
- org.eclipse.lsp4jakarta.jdt.core,
- org.eclipse.lsp4jakarta.jdt.internal.core.ls
+Export-Package: org.eclipse.lsp4jakarta.jdt.internal.core.providers

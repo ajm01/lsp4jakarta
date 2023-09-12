@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.lsp4jakarta.jdt.core.IProjectLabelProvider;
-import org.eclipse.lsp4jakarta.jdt.core.utils.JDTJakartaUtils;;
+import org.eclipse.lspcommon.jdt.core.IProjectLabelProvider;
+import org.eclipse.lspcommon.jdt.core.utils.JDTCommonUtils;
 
 /**
  * Provides a MicroProfile-specific label to a project if the project is a
@@ -34,7 +34,7 @@ public class JakartaProjectLabelProvider implements IProjectLabelProvider {
 
 	@Override
 	public List<String> getProjectLabels(IJavaProject project) throws JavaModelException {
-		if (JDTJakartaUtils.isJakartaProject(project)) {
+		if (JDTCommonUtils.isJakartaProject(project)) {
 			return Collections.singletonList(JAKARTA_LABEL);
 		};
 		return Collections.emptyList();
