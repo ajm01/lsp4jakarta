@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.function.BiPredicate;
 
 import org.eclipse.lsp4j.CompletionItem;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
 import org.eclipse.lsp4jakarta.commons.utils.StringUtils;
 import org.eclipse.lsp4jakarta.ls.commons.BadLocationException;
 import org.eclipse.lsp4jakarta.ls.commons.snippets.ISnippetContext;

@@ -20,9 +20,9 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
 import org.eclipse.lsp4j.services.LanguageClient;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
+import org.eclipse.lspcommon.commons.JavaCompletionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionResult;
+import org.eclipse.lspcommon.commons.JavaCursorContextResult;
 
 /**
  * API of the client consuming the Language Server for Jakarta EE. Used to send
@@ -31,7 +31,7 @@ import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
 public interface JakartaLanguageClientAPI extends LanguageClient, JakartaJavaCompletionProvider, JakartaJavaProjectLabelsProvider, JakartaJavaFileInfoProvider {
 
     @JsonRequest("jakarta/java/cursorcontext")
-    default CompletableFuture<JavaCursorContextResult> getJavaCursorContext(JakartaJavaCompletionParams context) {
+    default CompletableFuture<JavaCursorContextResult> getJavaCursorContext(JavaCompletionParams context) {
         return CompletableFuture.completedFuture(null);
     }
 }

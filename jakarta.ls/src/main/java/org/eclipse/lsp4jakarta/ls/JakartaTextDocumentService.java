@@ -38,9 +38,9 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.TextDocumentService;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
+import org.eclipse.lspcommon.commons.JavaCompletionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionResult;
+import org.eclipse.lspcommon.commons.JavaCursorContextResult;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments.JakartaTextDocument;
 import org.eclipse.lsp4jakarta.ls.java.JavaTextDocumentSnippetRegistry;
@@ -82,12 +82,12 @@ public class JakartaTextDocumentService implements TextDocumentService {
     	JakartaTextDocument document = documents.get(params.getTextDocument().getUri());
     	
     	return document.executeIfInJakartaProject((projectInfo, cancelChecker) -> {
-			JakartaJavaCompletionParams javaParams = new JakartaJavaCompletionParams(
+			JavaCompletionParams javaParams = new JavaCompletionParams(
 					params.getTextDocument().getUri(), params.getPosition());
     	
 
 		// get the completion capabilities from the java language server component
-		CompletableFuture<JakartaJavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer
+		CompletableFuture<JavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer
 				.getLanguageClient().getJavaCompletion(javaParams);
 		
 		// calculate params for Java snippets

@@ -29,12 +29,12 @@ import java.util.stream.Collectors;
 import org.eclipse.lsp4j.TextDocumentItem;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures.FutureCancelChecker;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
+import org.eclipse.lspcommon.commons.JavaFileInfo;
+import org.eclipse.lspcommon.commons.JavaFileInfoParams;
+import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
 //import org.eclipse.lsp4mp.commons.MicroProfilePropertiesChangeEvent;
 //import org.eclipse.lsp4mp.commons.MicroProfilePropertiesScope;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaFileInfoProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaProjectLabelsProvider;
 import org.eclipse.lsp4jakarta.ls.commons.TextDocument;
@@ -77,7 +77,7 @@ public class JakartaTextDocuments extends TextDocuments<JakartaTextDocument> {
 
 		private String packageName;
 
-		private CompletableFuture<JakartaJavaFileInfo> fileInfoFuture;
+		private CompletableFuture<JavaFileInfo> fileInfoFuture;
 
 		public JakartaTextDocument(TextDocumentItem document) {
 			super(document);
@@ -91,11 +91,11 @@ public class JakartaTextDocuments extends TextDocuments<JakartaTextDocument> {
 			if (fileInfoProvider != null) {
 				if (fileInfoFuture == null || fileInfoFuture.isCancelled()
 						|| fileInfoFuture.isCompletedExceptionally()) {
-					JakartaJavaFileInfoParams params = new JakartaJavaFileInfoParams();
+					JavaFileInfoParams params = new JavaFileInfoParams();
 					params.setUri(super.getUri());
 					fileInfoFuture = fileInfoProvider.getJavaFileInfo(params);
 				}
-				JakartaJavaFileInfo fileInfo = fileInfoFuture.getNow(null);
+				JavaFileInfo fileInfo = fileInfoFuture.getNow(null);
 				if (fileInfo != null) {
 					setPackageName(fileInfo.getPackageName());
 				}
@@ -243,7 +243,7 @@ public class JakartaTextDocuments extends TextDocuments<JakartaTextDocument> {
 		}
 		if (projectInfo == null || projectInfo.isCancelled() || projectInfo.isCompletedExceptionally()) {
 			// not found in the cache, load the project info from the JDT LS Extension
-			JakartaJavaProjectLabelsParams params = new JakartaJavaProjectLabelsParams();
+			JavaProjectLabelsParams params = new JavaProjectLabelsParams();
 			params.setUri(documentURI);
 			params.setTypes(getSnippetRegistry().getTypes());
 			final CompletableFuture<ProjectLabelInfoEntry> future = projectInfoProvider.getJavaProjectLabels(params);
