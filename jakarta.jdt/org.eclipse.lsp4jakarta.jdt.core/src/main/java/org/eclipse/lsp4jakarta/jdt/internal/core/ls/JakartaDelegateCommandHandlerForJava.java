@@ -35,7 +35,8 @@ import org.eclipse.lsp4j.jsonrpc.CompletableFutures;
 import org.eclipse.lspcommon.commons.JavaCompletionParams;
 import org.eclipse.lspcommon.commons.JavaCompletionResult;
 import org.eclipse.lspcommon.commons.JavaCursorContextResult;
-import org.eclipse.lspcommon.jdt.core.PropertiesManagerForJava;
+import org.eclipse.lsp4jakarta.jdt.core.JakartaPropertiesManagerForJava;
+import org.eclipse.lsp4jakarta.jdt.internal.core.java.JakartaJavaFeaturesRegistry;
 import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
@@ -73,9 +74,9 @@ public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHan
 	private static JavaCompletionResult getCompletionForJava(List<Object> arguments, String commandId,
 			IProgressMonitor monitor) throws JavaModelException, CoreException {
 		JavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
-		CompletionList completionList = PropertiesManagerForJava.getInstance().completion(params,
-				JDTUtilsLSImpl.getInstance(), monitor);
-		JavaCursorContextResult cursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(params,
+		CompletionList completionList = JakartaPropertiesManagerForJava.getInstance().completion(params,
+				JDTUtilsLSImpl.getInstance(), JakartaJavaFeaturesRegistry.getInstance(), monitor);
+		JavaCursorContextResult cursorContext = JakartaPropertiesManagerForJava.getInstance().javaCursorContext(params,
 				JDTUtilsLSImpl.getInstance(), monitor);
 		return new JavaCompletionResult(completionList, cursorContext);
 	}
